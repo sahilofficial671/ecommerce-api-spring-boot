@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.api.model.Item;
 import com.ecommerce.api.model.Order;
 import com.ecommerce.api.model.Product;
 import com.ecommerce.api.service.OrderService;
@@ -48,16 +49,23 @@ public class OrderController {
 	}
 	
 	@PostMapping("/order/submit")
-	public ResponseEntity<String> addOrder(@Valid @RequestBody Order order){		
-		for(Product product : order.getProducts()) {
+	public ResponseEntity<String> addOrder(@Valid @RequestBody Order order){
+		
+		for(Item item : order.getItems()) {
+			item.setOrder(order);
+			
 			// If any product with no id
-			if(product.getId() == null) {
+			if(item.getProduct().getId() == null) {
 				return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
 			}
 			
 			// If any product with id
-			if(!productService.exists(product.getId())) {
+			if(!productService.exists(item.getProduct().getId())) {
 				return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
+			}
+			
+			if(item.getQuantity() > item.getProduct().getQuantity()) {
+				return new ResponseEntity<String>("Order quantity not available.", HttpStatus.BAD_REQUEST);
 			}
 		}
 		
@@ -73,14 +81,16 @@ public class OrderController {
 			return new ResponseEntity<String>("Order not found.", HttpStatus.NOT_FOUND);
 		}
 		
-		for(Product product : order.getProducts()) {
+		for(Item item : order.getItems()) {
+			item.setOrder(order);
+			
 			// If any product with no id
-			if(product.getId() == null) {
+			if(item.getProduct().getId() == null) {
 				return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
 			}
 			
 			// If any product with id
-			if(!productService.exists(product.getId())) {
+			if(!productService.exists(item.getProduct().getId())) {
 				return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
 			}
 		}

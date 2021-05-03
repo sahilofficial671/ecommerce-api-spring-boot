@@ -33,19 +33,10 @@ public class ProductController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	@Autowired
-	private OrderService orderService;
-	
 	@GetMapping("/products")
 	public ResponseEntity<List<Product>> getProducts(){
 		List<Product> products = productService.getProducts();
 		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
-	}
-	
-	@GetMapping("/product/{id}/orders")
-	public ResponseEntity<List<Order>> getOrders(@PathVariable("id") Integer id){
-		List<Order> orders = productService.getProduct(id).getOrders();
-		return new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
 	}
 	
 	@GetMapping("/product/{id}")

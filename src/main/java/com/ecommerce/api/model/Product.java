@@ -66,13 +66,6 @@ public class Product {
     @NotNull(message = "Please add select valid product slug.")
     @Column(name = "slug")
 	private String slug;
-    
-    @JsonIgnore
-    @ManyToMany(targetEntity = Order.class,
-    		fetch = FetchType.LAZY,
-    		mappedBy="products", 
-    		cascade = {CascadeType.DETACH, CascadeType.MERGE})
-    private List<Order> orders;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
@@ -149,14 +142,6 @@ public class Product {
 		this.slug = slug;
 	}
 
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
-
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -172,13 +157,4 @@ public class Product {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", quantity=" + quantity
-				+ ", price=" + price + ", specialPrice=" + specialPrice + ", categoryId=" + categories + ", slug="
-				+ slug + ", orders=" + orders + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
-	}
-	
-	
 }

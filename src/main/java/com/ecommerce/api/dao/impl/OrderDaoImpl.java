@@ -1,8 +1,6 @@
  	package com.ecommerce.api.dao.impl;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -12,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ecommerce.api.dao.OrderDao;
+import com.ecommerce.api.model.Item;
 import com.ecommerce.api.model.Order;
+import com.ecommerce.api.model.Product;
 
 @Repository
 @Transactional
@@ -52,6 +52,13 @@ public class OrderDaoImpl implements OrderDao{
 	public Boolean add(Order order) {
 		try {
 			sessionFactory.getCurrentSession().save(order);
+			
+			// Update product quantity after order
+			for(Item item : order.getItems()) {
+				Product product = item.getProduct();
+				product.setQuantity(product.getQuantity()-item.getQuantity());
+				sessionFactory.getCurrentSession().update(product);
+			}
 			return true;
 		}catch(Exception e) {
 			e.printStackTrace();

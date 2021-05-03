@@ -11,10 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -35,18 +35,12 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@NotNull(message = "Please add valid product quantity.")
-	private Integer quantity;
-	
-	
-	@ManyToMany(targetEntity = Product.class, 
-			cascade = {CascadeType.DETACH, CascadeType.MERGE}, 
+	@NotNull(message="Products not found.")
+	@OneToMany(targetEntity = Item.class, 
+			cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE}, 
 			fetch = FetchType.LAZY)
-	@JoinTable(
-			  name = "order_products", 
-			  joinColumns = @JoinColumn(name = "order_id", referencedColumnName="id"), 
-			  inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName="id"))
-	private List<Product> products;
+	@Valid
+	private List<Item> items;
 	
 	@Size(max = 255)
 	private String comments;
@@ -75,21 +69,13 @@ public class Order {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	
-	public Integer getQuantity() {
-		return quantity;
+
+	public List<Item> getItems() {
+		return items;
 	}
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
+	public void setItems(List<Item> items) {
+		this.items = items;
 	}
 
 	public String getComments() {
@@ -126,9 +112,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", quantity=" + quantity + ", products=" + products
-				+ ", comments=" + comments + ", address=" + address + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
+		return "Order [id=" + id + ", items=" + items + ", comments=" + comments + ", address=" + address
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
-
 }
