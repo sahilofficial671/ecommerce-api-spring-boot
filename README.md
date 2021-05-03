@@ -1,4 +1,4 @@
-# ECommerce App
+# eCommerce API
 
 ## User Requirements
 
