@@ -47,7 +47,7 @@ public class Category {
     @ManyToMany(targetEntity = Product.class,
     		fetch = FetchType.LAZY,
     		mappedBy="categories", 
-    		cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    		cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     private List<Product> products;
     
     @Column(name = "created_at", nullable = false, updatable = false)

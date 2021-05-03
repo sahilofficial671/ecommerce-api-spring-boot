@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.api.model.Order;
+import com.ecommerce.api.model.Product;
 import com.ecommerce.api.service.OrderService;
 import com.ecommerce.api.service.ProductService;
 import com.ecommerce.api.service.UserService;
@@ -47,11 +48,19 @@ public class OrderController {
 	}
 	
 	@PostMapping("/order/submit")
-	public ResponseEntity<String> addOrder(@Valid @RequestBody Order order){
-//		if(! productService.exists(order)) {
-//			return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
-//		}
-//		
+	public ResponseEntity<String> addOrder(@Valid @RequestBody Order order){		
+		for(Product product : order.getProducts()) {
+			// If any product with no id
+			if(product.getId() == null) {
+				return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
+			}
+			
+			// If any product with id
+			if(!productService.exists(product.getId())) {
+				return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
+			}
+		}
+		
 		if(orderService.add(order)) {
 			return new ResponseEntity<String>("Order Added", HttpStatus.OK);
 		}
@@ -62,6 +71,18 @@ public class OrderController {
 	public ResponseEntity<String> updateOrder(@Valid @RequestBody Order order){
 		if(! orderService.exists(order.getId())) {
 			return new ResponseEntity<String>("Order not found.", HttpStatus.NOT_FOUND);
+		}
+		
+		for(Product product : order.getProducts()) {
+			// If any product with no id
+			if(product.getId() == null) {
+				return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
+			}
+			
+			// If any product with id
+			if(!productService.exists(product.getId())) {
+				return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
+			}
 		}
 		
 		if(orderService.update(order)) {

@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.api.model.Category;
+import com.ecommerce.api.model.Order;
 import com.ecommerce.api.model.Product;
 import com.ecommerce.api.service.CategoryService;
+import com.ecommerce.api.service.OrderService;
 import com.ecommerce.api.service.ProductService;
 
 @RestController
@@ -31,10 +33,19 @@ public class ProductController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	@Autowired
+	private OrderService orderService;
+	
 	@GetMapping("/products")
 	public ResponseEntity<List<Product>> getProducts(){
 		List<Product> products = productService.getProducts();
 		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+	}
+	
+	@GetMapping("/product/{id}/orders")
+	public ResponseEntity<List<Order>> getOrders(@PathVariable("id") Integer id){
+		List<Order> orders = productService.getProduct(id).getOrders();
+		return new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
 	}
 	
 	@GetMapping("/product/{id}")
@@ -44,10 +55,16 @@ public class ProductController {
 	}
 	
 	@PostMapping("/product/submit")
-	public ResponseEntity<String> addProduct(@Valid @RequestBody Product product){
+	public ResponseEntity<String> addProduct(@Valid @RequestBody Product product)
+	{
 		for(Category category : product.getCategories()) {
+			// if no category id
+			if(category.getId() == null) {
+				return new ResponseEntity<String>("Category not found.", HttpStatus.NOT_FOUND);
+			}
+			
 			// If category id
-			if(category.getId() != null && !categoryService.exists(category.getId())) {
+			if(!categoryService.exists(category.getId())) {
 				return new ResponseEntity<String>("Category not found.", HttpStatus.NOT_FOUND);
 			}
 		}
@@ -64,8 +81,13 @@ public class ProductController {
 		}
 		
 		for(Category category : product.getCategories()) {
+			// if no category id
+			if(category.getId() == null) {
+				return new ResponseEntity<String>("Category not found.", HttpStatus.NOT_FOUND);
+			}
+			
 			// If category id
-			if(category.getId() != null && !categoryService.exists(category.getId())) {
+			if(!categoryService.exists(category.getId())) {
 				return new ResponseEntity<String>("Category not found.", HttpStatus.NOT_FOUND);
 			}
 		}
@@ -88,4 +110,6 @@ public class ProductController {
 		
 		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
 	}
+	
+	
 }

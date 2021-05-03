@@ -55,7 +55,7 @@ public class Product {
 	
     @NotNull(message = "Please add valid product categories.")
     @ManyToMany(targetEntity = Category.class, 
-			cascade = {CascadeType.PERSIST, CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH}, 
+			cascade = {CascadeType.DETACH, CascadeType.MERGE}, 
 			fetch = FetchType.LAZY)
     @JoinTable(
 			  name = "product_categories", 
@@ -71,7 +71,7 @@ public class Product {
     @ManyToMany(targetEntity = Order.class,
     		fetch = FetchType.LAZY,
     		mappedBy="products", 
-    		cascade = CascadeType.ALL)
+    		cascade = {CascadeType.DETACH, CascadeType.MERGE})
     private List<Order> orders;
 
     @Column(name = "created_at", nullable = false, updatable = false)

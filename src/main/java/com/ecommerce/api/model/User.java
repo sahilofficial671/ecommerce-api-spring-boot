@@ -19,12 +19,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Component
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements Serializable{
 	
 	@Id
@@ -72,7 +73,6 @@ public class User implements Serializable{
     private Integer roleId;
     
 //	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-//	@JsonBackReference
 //    private Order orders;
 	
 	@Column(name = "created_at", nullable = false, updatable = false)

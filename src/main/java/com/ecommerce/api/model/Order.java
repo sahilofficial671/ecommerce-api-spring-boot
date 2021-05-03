@@ -40,7 +40,7 @@ public class Order {
 	
 	
 	@ManyToMany(targetEntity = Product.class, 
-			cascade = CascadeType.ALL, 
+			cascade = {CascadeType.DETACH, CascadeType.MERGE}, 
 			fetch = FetchType.LAZY)
 	@JoinTable(
 			  name = "order_products", 
@@ -52,7 +52,8 @@ public class Order {
 	private String comments;
 	
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, 
+			fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
 	@JsonManagedReference
     private Address address;
