@@ -101,8 +101,7 @@ public class ProductController {
 			return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
 		}
 		
-		Product product = productService.getProduct(id);
-		if(product.getItems().size() > 0) {
+		if(productService.getProduct(id).getItems().size() > 0) {
 			return new ResponseEntity<String>("Product is assigned to orders.", HttpStatus.BAD_REQUEST);
 		}
 		

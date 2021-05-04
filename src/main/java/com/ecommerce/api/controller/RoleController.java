@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.api.model.Role;
+import com.ecommerce.api.model.User;
 import com.ecommerce.api.service.RoleService;
 import com.ecommerce.api.service.UserService;
 
@@ -39,6 +40,12 @@ public class RoleController {
 	public ResponseEntity<Role> getRole(@PathVariable("id") Integer id){
 		Role role = roleService.getRole(id);
 		return new ResponseEntity<Role>(role, HttpStatus.OK);
+	}
+	
+	@GetMapping("/role/{id}/users")
+	public ResponseEntity<List<User>> getUsers(@PathVariable("id") Integer id){
+		List<User> users = roleService.getRole(id).getUsers();
+		return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 	}
 	
 	@PostMapping("/role/submit")
@@ -66,13 +73,15 @@ public class RoleController {
 		if(! roleService.exists(id)) {
 			return new ResponseEntity<String>("Role not found.", HttpStatus.NOT_FOUND);
 		}
-		if(userService.ifAnyUserHasThisRole(roleService.getRole(id))) {
+		
+		if(roleService.getRole(id).getUsers().size() > 0) {
 			return new ResponseEntity<String>("Role is assigned to user.", HttpStatus.BAD_REQUEST);
 		}
 		
 		if(roleService.delete(id)) {
 			return new ResponseEntity<String>("Role Deleted", HttpStatus.OK);
 		}
+		
 		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
 	}
 }

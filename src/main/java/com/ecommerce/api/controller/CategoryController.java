@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.api.model.Category;
+import com.ecommerce.api.model.Product;
 import com.ecommerce.api.service.CategoryService;
 
 @RestController
@@ -36,6 +37,12 @@ public class CategoryController {
 	public ResponseEntity<Category> getCategory(@PathVariable("id") Integer id){
 		Category category = categoryService.getCategory(id);
 		return new ResponseEntity<Category>(category, HttpStatus.OK);
+	}
+	
+	@GetMapping("/category/{id}/products")
+	public ResponseEntity<List<Product>> getProducts(@PathVariable("id") Integer id){
+		List<Product> products = categoryService.getCategory(id).getProducts();
+		return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
 	}
 	
 	@PostMapping("/category/submit")
@@ -64,8 +71,7 @@ public class CategoryController {
 			return new ResponseEntity<String>("Category not found.", HttpStatus.NOT_FOUND);
 		}
 		
-		Category category = categoryService.getCategory(id);
-		if(category.getProducts().size() > 0) {
+		if(categoryService.getCategory(id).getProducts().size() > 0) {
 			return new ResponseEntity<String>("Category is assigned to products.", HttpStatus.BAD_REQUEST);
 		}
 		

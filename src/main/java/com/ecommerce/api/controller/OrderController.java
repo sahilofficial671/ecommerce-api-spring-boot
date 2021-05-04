@@ -48,6 +48,12 @@ public class OrderController {
 		return new ResponseEntity<Order>(order, HttpStatus.OK);
 	}
 	
+	@GetMapping("/order/{id}/items")
+	public ResponseEntity<List<Item>> getItems(@PathVariable("id") Integer id){
+		List<Item> items = orderService.getOrder(id).getItems();
+		return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
+	}
+	
 	@PostMapping("/order/submit")
 	public ResponseEntity<String> addOrder(@Valid @RequestBody Order order){
 		

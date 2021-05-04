@@ -43,6 +43,12 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 	
+	@GetMapping("/user/{id}/roles")
+	public ResponseEntity<List<Role>> getRoles(@PathVariable("id") Integer id){
+		List<Role> roles = userService.getUser(id).getRoles();
+		return new ResponseEntity<List<Role>>(roles, HttpStatus.OK);
+	}
+	
 	@PostMapping("/user/submit")
 	public ResponseEntity<String> addUser(@Valid @RequestBody User user)
 	{
@@ -99,8 +105,8 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/user/delete/{id}")
-	public ResponseEntity<String> updateUser(@PathVariable("id") Integer id){
-		
+	public ResponseEntity<String> updateUser(@PathVariable("id") Integer id)
+	{	
 		// If User exists
 		if(! userService.exists(id)) {
 			return new ResponseEntity<String>("User not found.", HttpStatus.NOT_FOUND);
