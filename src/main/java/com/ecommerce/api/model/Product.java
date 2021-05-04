@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,8 +22,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Component
@@ -62,6 +64,14 @@ public class Product {
 			  joinColumns = @JoinColumn(name = "product_id", referencedColumnName="id"), 
 			  inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName="id"))
 	private List<Category> categories;
+    
+    // Order Item Relationship
+    @OneToMany(targetEntity = Item.class, 
+			cascade = {CascadeType.DETACH, CascadeType.MERGE}, 
+			fetch = FetchType.LAZY,
+			mappedBy="product")
+    @JsonBackReference
+    private List<Item> items;
 
     @NotNull(message = "Please add select valid product slug.")
     @Column(name = "slug")
@@ -80,6 +90,13 @@ public class Product {
 
 	public Integer getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", quantity=" + quantity
+				+ ", price=" + price + ", specialPrice=" + specialPrice + ", categories=" + categories + ", items="
+				+ items + ", slug=" + slug + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 
 	public void setId(Integer id) {
@@ -132,6 +149,14 @@ public class Product {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
 	}
 
 	public String getSlug() {

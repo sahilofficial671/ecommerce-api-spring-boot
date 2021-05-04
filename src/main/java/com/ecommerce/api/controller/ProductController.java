@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.api.model.Category;
-import com.ecommerce.api.model.Order;
+import com.ecommerce.api.model.Item;
 import com.ecommerce.api.model.Product;
 import com.ecommerce.api.service.CategoryService;
-import com.ecommerce.api.service.OrderService;
 import com.ecommerce.api.service.ProductService;
 
 @RestController
@@ -45,6 +44,12 @@ public class ProductController {
 		return new ResponseEntity<Product>(product, HttpStatus.OK);
 	}
 	
+	@GetMapping("/product/{id}/items")
+	public ResponseEntity<List<Item>> getItems(@PathVariable("id") Integer id){
+		List<Item> items = productService.getProduct(id).getItems();
+		return new ResponseEntity<List<Item>>(items, HttpStatus.OK);
+	}
+	
 	@PostMapping("/product/submit")
 	public ResponseEntity<String> addProduct(@Valid @RequestBody Product product)
 	{
@@ -59,6 +64,7 @@ public class ProductController {
 				return new ResponseEntity<String>("Category not found.", HttpStatus.NOT_FOUND);
 			}
 		}
+		
 		if(productService.add(product)) {
 			return new ResponseEntity<String>("Product Added.", HttpStatus.OK);
 		}
@@ -93,6 +99,11 @@ public class ProductController {
 	public ResponseEntity<String> updateProduct(@PathVariable("id") Integer id){
 		if(! productService.exists(id)) {
 			return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);
+		}
+		
+		Product product = productService.getProduct(id);
+		if(product.getItems().size() > 0) {
+			return new ResponseEntity<String>("Product is assigned to orders.", HttpStatus.BAD_REQUEST);
 		}
 		
 		if(productService.delete(id)) {
