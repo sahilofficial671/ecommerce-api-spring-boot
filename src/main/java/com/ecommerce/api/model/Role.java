@@ -2,12 +2,16 @@ package com.ecommerce.api.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,6 +19,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Component
@@ -31,6 +37,13 @@ public class Role implements Serializable{
 	
 	@Size(max = 255)
 	private String description;
+	
+    @JsonIgnore
+    @ManyToMany(targetEntity = User.class,
+    		fetch = FetchType.LAZY,
+    		mappedBy="roles", 
+    		cascade = {CascadeType.DETACH, CascadeType.REFRESH})
+    private List<User> users;
 
 	@Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
@@ -67,6 +80,14 @@ public class Role implements Serializable{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 	public Date getCreatedAt() {

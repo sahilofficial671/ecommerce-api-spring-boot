@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecommerce.api.model.Role;
 import com.ecommerce.api.model.User;
 import com.ecommerce.api.service.RoleService;
 import com.ecommerce.api.service.UserService;
@@ -43,9 +44,17 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/submit")
-	public ResponseEntity<String> addUser(@Valid @RequestBody User user){
-		if(! roleService.exists(user.getRoleId())) {
-			return new ResponseEntity<String>("Role not found.", HttpStatus.NOT_FOUND);
+	public ResponseEntity<String> addUser(@Valid @RequestBody User user)
+	{
+		// Validate Roles
+		for(Role role : user.getRoles()) {
+			if(role.getId() == null) {
+				return new ResponseEntity<String>("Role not found.", HttpStatus.NOT_FOUND);
+			}
+			
+			if(!roleService.exists(role.getId())) {
+				return new ResponseEntity<String>("Role not found.", HttpStatus.NOT_FOUND);
+			}
 		}
 		
 		if(userService.ifUserNameIsTakenAlready(user.getUserName())) {
@@ -60,21 +69,28 @@ public class UserController {
 	}
 	
 	@PutMapping("/user/update")
-	public ResponseEntity<String> updateUser(@Valid @RequestBody User user){
-		
+	public ResponseEntity<String> updateUser(@Valid @RequestBody User user)
+	{
 		// If User exists
 		if(! userService.exists(user.getId())) {
 			return new ResponseEntity<String>("User not found.", HttpStatus.NOT_FOUND);
 		}
-		
-		if(! roleService.exists(user.getRoleId())) {
-			return new ResponseEntity<String>("Role not found.", HttpStatus.NOT_FOUND);
+			
+		// Validate Roles
+		for(Role role : user.getRoles()) {
+			if(role.getId() == null) {
+				return new ResponseEntity<String>("Role not found.", HttpStatus.NOT_FOUND);
+			}
+			
+			if(!roleService.exists(role.getId())) {
+				return new ResponseEntity<String>("Role not found.", HttpStatus.NOT_FOUND);
+			}
 		}
 		
 		if(!userService.ifUserNameIsOnlyTakenByOrItsNew(user)) {
 			return new ResponseEntity<String>("Username is taken already", HttpStatus.BAD_REQUEST);
 		}
-		
+			
 		if(userService.update(user)) {
 			return new ResponseEntity<String>("User Updated", HttpStatus.OK);
 		}

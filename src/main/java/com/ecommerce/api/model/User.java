@@ -2,13 +2,18 @@ package com.ecommerce.api.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -68,12 +73,15 @@ public class User implements Serializable{
     @Column(length = 15, name = "phone")
 	private String phone;
     
-    @NotNull(message = "Please add valid user role.")
-    @Column(name = "role_id")
-    private Integer roleId;
-    
-//	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
-//    private Order orders;
+    @NotNull(message = "Please add valid user roles.")
+    @ManyToMany(targetEntity = Role.class, 
+			cascade = {CascadeType.DETACH, CascadeType.MERGE}, 
+			fetch = FetchType.LAZY)
+    @JoinTable(
+			  name = "user_roles", 
+			  joinColumns = @JoinColumn(name = "user_id", referencedColumnName="id"), 
+			  inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName="id"))
+	private List<Role> roles;
 	
 	@Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
@@ -159,12 +167,12 @@ public class User implements Serializable{
 		this.phone = phone;
 	}
 
-	public Integer getRoleId() {
-		return roleId;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	public Date getCreatedAt() {
@@ -181,13 +189,5 @@ public class User implements Serializable{
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
-	}
-	
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
-				+ ", email=" + email + ", userName=" + userName + ", password=" + password + ", dateOfBirth="
-				+ dateOfBirth + ", phone=" + phone + ", roleId=" + roleId + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + "]";
 	}
 }
