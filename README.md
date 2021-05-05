@@ -37,7 +37,7 @@ Currently there are two roles defined as follows:
 
 ### Resources
 
-#### Categories
+#### Users
 
 * To get list of users: 
     - **Method** : GET
@@ -102,6 +102,38 @@ Currently there are two roles defined as follows:
 * To delete user: 
     - **Method** : DELETE
     - **URL** : /user/{id}/delete
+
+#### Roles
+
+* To get list of roles: 
+    - **Method** : GET
+    - **URL** : /roles
+
+* To get role info: 
+    - **Method** : GET
+    - **URL** : /role/{id}
+
+* To create role: 
+    - **Method** : POST
+    - **URL** : /role/submit
+    - **Request Data** :  ``` {"name": "Admin"}```
+    - **Note** : 
+        - Should be a valid role with id
+
+* To update role: 
+    - **Method** : PUT
+    - **URL** : /role/update
+    - **Request Data** : ``` {"name": "Admin"}```
+        ```
+    - **Note** : 
+        - Should be a valid role with id
+
+* To delete role: 
+    - **Method** : DELETE
+    - **URL** : /role/{id}/delete
+    - **Note** : 
+        - Should be a valid role id
+        - Should not been assigned to any product yet.
         
 #### Products
 
