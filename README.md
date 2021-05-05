@@ -125,7 +125,6 @@ Currently there are two roles defined as follows:
     - **Method** : PUT
     - **URL** : /role/update
     - **Request Data** : ``` {"id": 1, "name": "Admin"}```
-        ```
     - **Note** : 
         - Should be a valid role with id
 
