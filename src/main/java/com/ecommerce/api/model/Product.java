@@ -22,9 +22,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Component
@@ -70,7 +69,7 @@ public class Product {
 			cascade = {CascadeType.DETACH, CascadeType.MERGE}, 
 			fetch = FetchType.LAZY,
 			mappedBy="product")
-    @JsonBackReference
+    @JsonIgnore
     private List<Item> items;
 
     @NotNull(message = "Please add select valid product slug.")

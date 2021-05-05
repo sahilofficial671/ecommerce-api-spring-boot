@@ -51,7 +51,7 @@ public class RoleController {
 	@PostMapping("/role/submit")
 	public ResponseEntity<String> addRole(@Valid @RequestBody Role role){
 		if(roleService.add(role)) {
-			return new ResponseEntity<String>("Role Added", HttpStatus.OK);
+			return new ResponseEntity<String>("Role Added.", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
 	}
@@ -63,7 +63,7 @@ public class RoleController {
 		}
 		
 		if(roleService.update(role)) {
-			return new ResponseEntity<String>("Role Updated", HttpStatus.OK);
+			return new ResponseEntity<String>("Role Updated.", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
 	}
