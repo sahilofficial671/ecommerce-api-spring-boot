@@ -37,6 +37,72 @@ Currently there are two roles defined as follows:
 
 ### Resources
 
+#### Categories
+
+* To get list of users: 
+    - **Method** : GET
+    - **URL** : /users
+
+* To get user info: 
+    - **Method** : GET
+    - **URL** : /user/{id}
+
+* To create user: 
+    - **Method** : POST
+    - **URL** : /user/submit
+    - **Request Data** : 
+        ```
+        {
+            "firstName": "Sahil",
+            "lastName": "Bhatia",
+            "gender": "Male",
+            "phone": "9560487757",
+            "dateOfBirth":"1998-03-251",
+            "email": "sahil@sahilcom",
+            "userName":"sahil1",
+            "password":"sahil1234",
+            "roles":[
+                {
+                    "id": 1,
+                    "name" : "Admin"
+                }
+            ]
+        }
+        ```
+    - **Note** : 
+        - Should be a valid user with id
+        - Should be a valid role with id
+
+* To update user: 
+    - **Method** : PUT
+    - **URL** : /user/update
+    - **Request Data** :
+        ```
+        {
+            "firstName": "Sahil",
+            "lastName": "Bhatia",
+            "gender": "Male",
+            "phone": "9560487757",
+            "dateOfBirth":"1998-03-251",
+            "email": "sahil@sahilcom",
+            "userName":"sahil1",
+            "password":"sahil1234",
+            "roles":[
+                {
+                    "id": 1,
+                    "name" : "Admin"
+                }
+            ]
+        }
+        ```
+    - **Note** : 
+        - Should be a valid user with id
+        - Should be a valid role with id
+
+* To delete user: 
+    - **Method** : DELETE
+    - **URL** : /user/{id}/delete
+        
 #### Products
 
 The list of Products is always a paginated result for scalability.
@@ -64,8 +130,8 @@ The list of Products is always a paginated result for scalability.
             "categories":[
                 {
                     "id": 1,
-                    "name": "papaya",
-                    "description": "Fruits available here"
+                    "name": "fruit",
+                    "description": "Fruit description"
                 }
             ]
         }
@@ -91,8 +157,8 @@ The list of Products is always a paginated result for scalability.
             "categories":[
                 {
                     "id": 1,
-                    "name": "papaya",
-                    "description": "Fruits available here"
+                    "name": "fruit",
+                    "description": "Fruit description"
                 }
             ]
         }
@@ -108,9 +174,9 @@ The list of Products is always a paginated result for scalability.
 
 #### Categories
 
-* To get list of categorys: 
+* To get list of categories: 
     - **Method** : GET
-    - **URL** : /categorys
+    - **URL** : /categories
 
 * To get category info: 
     - **Method** : GET
@@ -119,20 +185,22 @@ The list of Products is always a paginated result for scalability.
 * To create category: 
     - **Method** : POST
     - **URL** : /category/submit
-    - **Request Data** : ``` {"id": 1, "name": "papaya", "description": "Fruits available here" } ```
+    - **Request Data** : ``` {"id": 1, "name": "fruit", "description": "fruit description." } ```
     - **Note** : 
         - Should be a valid category with id
 
 * To update category: 
     - **Method** : PUT
     - **URL** : /category/update
-    - **Request Data** : ``` {"id": 1, "name": "papaya", "description": "Fruits available here" } ```
+    - **Request Data** : ``` {"id": 1, "name": "fruit", "description": "fruit description." } ```
     - **Note** : 
         - Should be a valid category with id
 
 * To delete category: 
     - **Method** : DELETE
     - **URL** : /category/{id}/delete
+    - **Note** : 
+        - No product should be assigned to this category for deletion.
 
 ##### Add / Remove child categories
 

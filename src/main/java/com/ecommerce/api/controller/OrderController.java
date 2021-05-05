@@ -119,7 +119,7 @@ public class OrderController {
 		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
 	}
 	
-	@DeleteMapping("/order/delete/{id}")
+	@DeleteMapping("/order/{id}/delete")
 	public ResponseEntity<String> updateOrder(@PathVariable("id") Integer id){
 		if(! orderService.exists(id)) {
 			return new ResponseEntity<String>("Order not found.", HttpStatus.NOT_FOUND);

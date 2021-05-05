@@ -68,7 +68,7 @@ public class RoleController {
 		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
 	}
 	
-	@DeleteMapping("/role/delete/{id}")
+	@DeleteMapping("/role/{id}/delete")
 	public ResponseEntity<String> updateRole(@PathVariable("id") Integer id){
 		if(! roleService.exists(id)) {
 			return new ResponseEntity<String>("Role not found.", HttpStatus.NOT_FOUND);

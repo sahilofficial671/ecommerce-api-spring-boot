@@ -65,7 +65,7 @@ public class CategoryController {
 		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
 	}
 	
-	@DeleteMapping("/category/delete/{id}")
+	@DeleteMapping("/category/{id}/delete")
 	public ResponseEntity<String> updateCategory(@PathVariable("id") Integer id){
 		if(! categoryService.exists(id)) {
 			return new ResponseEntity<String>("Category not found.", HttpStatus.NOT_FOUND);

@@ -95,7 +95,7 @@ public class ProductController {
 		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
 	}
 	
-	@DeleteMapping("/product/delete/{id}")
+	@DeleteMapping("/product/{id}/delete")
 	public ResponseEntity<String> updateProduct(@PathVariable("id") Integer id){
 		if(! productService.exists(id)) {
 			return new ResponseEntity<String>("Product not found.", HttpStatus.NOT_FOUND);

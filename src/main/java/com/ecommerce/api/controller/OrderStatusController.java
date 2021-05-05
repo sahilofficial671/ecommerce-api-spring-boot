@@ -65,7 +65,7 @@ public class OrderStatusController {
 		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
 	}
 	
-	@DeleteMapping("/order_status/delete/{id}")
+	@DeleteMapping("/order_status/{id}/delete")
 	public ResponseEntity<String> updateOrderStatus(@PathVariable("id") Integer id){
 		if(! orderStatusService.exists(id)) {
 			return new ResponseEntity<String>("Order Status not found.", HttpStatus.NOT_FOUND);

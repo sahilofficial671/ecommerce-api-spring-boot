@@ -104,7 +104,7 @@ public class UserController {
 		return new ResponseEntity<String>("Something went wrong! Unable to update user.", HttpStatus.NOT_IMPLEMENTED);
 	}
 	
-	@DeleteMapping("/user/delete/{id}")
+	@DeleteMapping("/user/{id}/delete")
 	public ResponseEntity<String> updateUser(@PathVariable("id") Integer id)
 	{	
 		// If User exists
