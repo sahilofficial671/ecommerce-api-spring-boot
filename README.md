@@ -29,44 +29,110 @@ Currently there are two roles defined as follows:
 - USER: it's a user role that can manipulate *only* products that were created by that user. It can also get data for other users products and categories in the system.
 
 #### Admin User
-`curl -H "Content-Type: application/json" -X POST "http://localhost:8080/login" -d '{ "username": "admin", "password": "admin" }'`
+`curl -H "Content-Type: application/json" -X POST "http://localhost:9001/admin/login" -d '{ "username": "admin", "password": "admin" }'`
 
 #### Normal User
-`curl -H "Content-Type: application/json" -X POST "http://localhost:8080/login" -d '{ "username": "user1", "password": "user1" }'`
-`curl -H "Content-Type: application/json" -X POST "http://localhost:8080/login" -d '{ "username": "user2", "password": "user2" }'`
+`curl -H "Content-Type: application/json" -X POST "http://localhost:9001/login" -d '{ "username": "user1", "password": "user1" }'`
+`curl -H "Content-Type: application/json" -X POST "http://localhost:9001/login" -d '{ "username": "user2", "password": "user2" }'`
 
 ### Resources
-
-Excepting the `/login` API endpoint that is being used for authentication, all the other API endpoints require a HTTP header to be passed in as parameter in all requests.
-This HTTP header will have the key name "Authorization" and the key value will be the authentication token that was retrieved during the authentication transaction (please see the `Authentication` section).
-Note: this token is a JWT token that is internally signed with a private key configured in the server, and it has the public user information on it.
-The idea behind this JWT token is to avoid going back to the database to validate whether a JWT token is valid or not, because that information is already contained in the token itself.
-There are several approaches for authentication such as Cookies, GUID tokens, OAuth2, etc... but we are choosing JWT for simplicity and scalability purposes.
-
-Note: we are using HATEOAS-oriented REST endpoints (https://en.wikipedia.org/wiki/HATEOAS), so you will find the possible operations to perform on resources while browsing the main endpoints: `/products` and `/categories`
-In the below examples, you need to replace `XXXX` with the token returned in the authentication process (please see the `Authentication` section for more information).
 
 #### Products
 
 The list of Products is always a paginated result for scalability.
 
-URL: `/products`
+* To get list of products: 
+    - **Method** : GET
+    - **URL** : /products
 
-* To get (paged) list of products: `curl -H "Authorization: XXXX" -X GET "http://localhost:8080/products"`
-* To get products info: `curl -H "Authorization: XXXX" -X GET "http://localhost:8080/products/{id}"`
-* To create products: `curl -H "Content-Type: application/json" -H "Authorization: XXXX" -X POST "http://localhost:8080/products"  -d '{ "name": "P1", "currency": "EUR", "price": 100.00 }'`
-* To update products: `curl -H "Content-Type: application/json" -H "Authorization: XXXX" -X PUT "http://localhost:8080/products/{id}" -d '{ "name": "P1", "currency": "EUR", "price": 100.00 }'`
-* To delete products: `curl -H "Authorization: XXXX" -X DELETE "http://localhost:8080/products/{id}"`
+* To get product info: 
+    - **Method** : GET
+    - **URL** : /product/{id}
+
+* To create product: 
+    - **Method** : POST
+    - **URL** : /product/submit
+    - **Request Data** :
+        ```
+        {
+            "name": "Apple",
+            "description": "Mango description",
+            "quantity": 17,
+            "price": 10.0,
+            "specialPrice": 5.0,
+            "slug": "manog-new",
+            "categories":[
+                {
+                    "id": 1,
+                    "name": "papaya",
+                    "description": "Fruits available here"
+                }
+            ]
+        }
+        ```
+
+    - **Note** : 
+        - Should be a valid product with id
+        - Categories should be valid with category id
+
+* To update product: 
+    - **Method** : PUT
+    - **URL** : /product/update
+    - **Request Data** : 
+        ```
+        {
+            "id":1,
+            "name": "Mango",
+            "description": "Mango description",
+            "quantity": 17,
+            "price": 10.0,
+            "specialPrice": 5.0,
+            "slug": "manog-new",
+            "categories":[
+                {
+                    "id": 1,
+                    "name": "papaya",
+                    "description": "Fruits available here"
+                }
+            ]
+        }
+        ```
+
+    - **Note** : 
+        - Should be a valid product with id
+        - Categories should be valid with category id
+
+* To delete product: 
+    - **Method** : DELETE
+    - **URL** : /product/{id}/delete
 
 #### Categories
 
-URL: `/categories`
+* To get list of categorys: 
+    - **Method** : GET
+    - **URL** : /categorys
 
-* To get list of categories: `curl -H "Authorization: XXXX" -X GET "http://localhost:8080/categories"`
-* To get category info: `curl -H "Authorization: XXXX" -X GET "http://localhost:8080/categories/{id}"`
-* To create category: `curl -H "Content-Type: application/json" -H "Authorization: XXXX" -X POST "http://localhost:8080/categories"  -d '{ "name": "C1" }'`
-* To update category: `curl -H "Content-Type: application/json" -H "Authorization: XXXX" -X PUT "http://localhost:8080/categories/{id}" -d '{ "name": "C1" }'`
-* To delete category: `curl -H "Authorization: XXXX" -X DELETE "http://localhost:8080/categories/{id}"`
+* To get category info: 
+    - **Method** : GET
+    - **URL** : /category/{id}
+
+* To create category: 
+    - **Method** : POST
+    - **URL** : /category/submit
+    - **Request Data** : ``` {"id": 1, "name": "papaya", "description": "Fruits available here" } ```
+    - **Note** : 
+        - Should be a valid category with id
+
+* To update category: 
+    - **Method** : PUT
+    - **URL** : /category/update
+    - **Request Data** : ``` {"id": 1, "name": "papaya", "description": "Fruits available here" } ```
+    - **Note** : 
+        - Should be a valid category with id
+
+* To delete category: 
+    - **Method** : DELETE
+    - **URL** : /category/{id}/delete
 
 ##### Add / Remove child categories
 
