@@ -79,6 +79,7 @@ Currently there are two roles defined as follows:
     - **Request Data** :
         ```
         {
+            "id": 1,
             "firstName": "Sahil",
             "lastName": "Bhatia",
             "gender": "Male",
@@ -123,7 +124,7 @@ Currently there are two roles defined as follows:
 * To update role: 
     - **Method** : PUT
     - **URL** : /role/update
-    - **Request Data** : ``` {"name": "Admin"}```
+    - **Request Data** : ``` {"id": 1, "name": "Admin"}```
         ```
     - **Note** : 
         - Should be a valid role with id
@@ -179,7 +180,7 @@ The list of Products is always a paginated result for scalability.
     - **Request Data** : 
         ```
         {
-            "id":1,
+            "id": 1,
             "name": "Mango",
             "description": "Mango description",
             "quantity": 17,
@@ -217,7 +218,7 @@ The list of Products is always a paginated result for scalability.
 * To create category: 
     - **Method** : POST
     - **URL** : /category/submit
-    - **Request Data** : ``` {"id": 1, "name": "fruit", "description": "fruit description." } ```
+    - **Request Data** : ``` {"name": "fruit", "description": "fruit description." } ```
     - **Note** : 
         - Should be a valid category with id
 
@@ -233,6 +234,157 @@ The list of Products is always a paginated result for scalability.
     - **URL** : /category/{id}/delete
     - **Note** : 
         - No product should be assigned to this category for deletion.
+
+#### Orders
+
+* To get list of orders: 
+    - **Method** : GET
+    - **URL** : /orders
+
+* To get order info: 
+    - **Method** : GET
+    - **URL** : /order/{id}
+
+* To create order: 
+    - **Method** : POST
+    - **URL** : /order/submit
+    - **Request Data** : 
+        ```
+        {
+            "comments":"Asd",
+            "quantity":10,
+            "address":{
+                "addressLine1":"House No. 20",
+                "addressLine2":"Block F",
+                "city":"FBD",
+                "state":"HR",
+                "pincode":"121001"
+            },
+            "orderStatus": {
+                "id": 1,
+                "name": "Pending"
+            },
+            "items" : [
+                {
+                    "quantity":17,
+                    "product": {
+                        "id": 1,
+                        "name": "Apple",
+                        "description": "Mango description",
+                        "quantity": 17,
+                        "price": 10.0,
+                        "specialPrice": 5.0,
+                        "categories": [
+                            {
+                                "id": 1,
+                                "name": "papaya",
+                                "description": "Fruits available here",
+                                "slug": "fruits",
+                                "createdAt": 1620235977000,
+                                "updatedAt": 1620235977000
+                            }
+                        ],
+                        "slug": "manog-new",
+                        "createdAt": 1620235980000,
+                        "updatedAt": 1620235980000
+                    }
+                }
+            ]
+        }
+        ```
+    - **Note** : 
+        - Should be a valid order with id
+        - Should be having valid products with their respective ids
+        - Should have valid order status with id
+
+* To update order: 
+    - **Method** : PUT
+    - **URL** : /order/update
+    - **Request Data** :
+        ```
+        {
+            "id": 1,
+            "comments":"Asd",
+            "quantity":10,
+            "address":{
+                "addressLine1":"House No. 20",
+                "addressLine2":"Block F",
+                "city":"FBD",
+                "state":"HR",
+                "pincode":"121001"
+            },
+            "orderStatus": {
+                "id": 1,
+                "name": "Pending"
+            },
+            "items" : [
+                {
+                    "quantity":17,
+                    "product": {
+                        "id": 1,
+                        "name": "Apple",
+                        "description": "Mango description",
+                        "quantity": 17,
+                        "price": 10.0,
+                        "specialPrice": 5.0,
+                        "categories": [
+                            {
+                                "id": 1,
+                                "name": "papaya",
+                                "description": "Fruits available here",
+                                "slug": "fruits",
+                                "createdAt": 1620235977000,
+                                "updatedAt": 1620235977000
+                            }
+                        ],
+                        "slug": "manog-new",
+                        "createdAt": 1620235980000,
+                        "updatedAt": 1620235980000
+                    }
+                }
+            ]
+        }
+        ```
+    - **Note** : 
+        - Should be a valid order with id
+        - Should be having valid products with their respective ids
+        - Should have valid order status with id
+
+* To delete order: 
+    - **Method** : DELETE
+    - **URL** : /order/{id}/delete
+    - **Note** : 
+        - No product should be assigned before order deletion.
+
+#### Order Status
+
+* To get list of order statuses: 
+    - **Method** : GET
+    - **URL** : /order_statuses
+
+* To get Order Status info: 
+    - **Method** : GET
+    - **URL** : /order_status/{id}
+
+* To create Order Status: 
+    - **Method** : POST
+    - **URL** : /order_status/submit
+    - **Request Data** : ``` {"name": "Pending"} ```
+    - **Note** : 
+        - Should be a valid order_status with id
+
+* To update Order Status: 
+    - **Method** : PUT
+    - **URL** : /order_status/update
+    - **Request Data** : ``` {"id": 1, "name": "Success" } ```
+    - **Note** : 
+        - Should be a valid order_status with id
+
+* To delete Order Status: 
+    - **Method** : DELETE
+    - **URL** : /order_status/{id}/delete
+    - **Note** : 
+        - No orders should have this status assigned.
 
 ##### Add / Remove child categories
 
