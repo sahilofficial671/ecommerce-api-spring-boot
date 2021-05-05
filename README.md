@@ -40,12 +40,12 @@ Currently there are two roles defined as follows:
 #### Users
 
 * To get list of users: 
-    - **Method** : GET
-    - **URL** : /users
+    - **Method**: GET
+    - **URL**: /users
 
 * To get user info: 
-    - **Method** : GET
-    - **URL** : /user/{id}
+    - **Method**: GET
+    - **URL**: /user/{id}
 
 * To create user: 
     - **Method** : POST
