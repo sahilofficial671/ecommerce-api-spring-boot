@@ -11,11 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,41 +20,30 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Component
-@Table(name = "orders")
+@Table(name = "order_statuses")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Order {
-
+public class OrderStatus {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@NotNull(message="Products not found.")
-	@OneToMany(targetEntity = Item.class, 
-			cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE}, 
-			fetch = FetchType.LAZY)
-	@Valid
-	private List<Item> items;
+	@NotNull(message = "Please add valid order status name.")
+	@Size(max = 150)
+	private String name;
 	
-	@Size(max = 255)
-	private String comments;
-	
-	@ManyToOne(targetEntity = OrderStatus.class,
+    @OneToMany(targetEntity = Order.class, 
 			cascade = {CascadeType.DETACH, CascadeType.MERGE}, 
 			fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_status_id", referencedColumnName = "id")
-    private OrderStatus orderStatus;
-	
-	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, 
-			fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-	@JsonManagedReference
-    private Address address;
-
+    @JoinColumn(name="order_status_id", referencedColumnName="id")
+    @JsonIgnore
+    private List<Order> orders;
+    
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
@@ -66,7 +52,7 @@ public class Order {
     @UpdateTimestamp
     private Date updatedAt;
 	
-	public Order() {}
+    public OrderStatus() {}
 
 	public Integer getId() {
 		return id;
@@ -76,36 +62,20 @@ public class Order {
 		this.id = id;
 	}
 
-	public List<Item> getItems() {
-		return items;
+	public String getName() {
+		return name;
 	}
 
-	public void setItems(List<Item> items) {
-		this.items = items;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getComments() {
-		return comments;
+	public List<Order> getOrders() {
+		return orders;
 	}
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
-	public OrderStatus getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	public Date getCreatedAt() {

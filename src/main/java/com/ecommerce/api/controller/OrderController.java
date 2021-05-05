@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.api.model.Item;
 import com.ecommerce.api.model.Order;
-import com.ecommerce.api.model.Product;
 import com.ecommerce.api.service.OrderService;
+import com.ecommerce.api.service.OrderStatusService;
 import com.ecommerce.api.service.ProductService;
 import com.ecommerce.api.service.UserService;
 
@@ -32,6 +32,9 @@ public class OrderController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private OrderStatusService orderStatusService;
 	
 	@Autowired
 	private ProductService productService;
@@ -73,6 +76,15 @@ public class OrderController {
 			if(item.getQuantity() > item.getProduct().getQuantity()) {
 				return new ResponseEntity<String>("Order quantity not available.", HttpStatus.BAD_REQUEST);
 			}
+		}
+		
+		// Order status must not be null and should be an existing model
+		if(order.getOrderStatus() == null) {
+			return new ResponseEntity<String>("Order Status not found.", HttpStatus.NOT_FOUND);	
+		}
+		
+		if(!orderStatusService.exists(order.getOrderStatus().getId())) {
+			return new ResponseEntity<String>("Order Status not found.", HttpStatus.NOT_FOUND);	
 		}
 		
 		if(orderService.add(order)) {
