@@ -14,6 +14,8 @@ import com.ecommerce.api.dao.UserDao;
 import com.ecommerce.api.model.Role;
 import com.ecommerce.api.model.User;
 
+import ch.qos.logback.classic.net.SyslogAppender;
+
 @Repository
 @Transactional
 public class UserDaoImpl implements UserDao{
@@ -160,6 +162,22 @@ public class UserDaoImpl implements UserDao{
 		}catch(Exception e) {
 			e.printStackTrace();
 			
+			String message = "Error From: "+ this.getClass().getSimpleName() +" ["+Thread.currentThread().getStackTrace()[1].getMethodName()+"], Error Class: " + e.getClass().getSimpleName() + ", Message: "+ e.getMessage();
+			return null;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public User getUserByEmailAndPassword(String email, String password) {
+		try {
+			Query query = sessionFactory.getCurrentSession().createQuery("from User where email=:email and password=:password");
+			query.setParameter("email", email);
+			query.setParameter("password", password);
+			List<User> users = query.list();
+			return users.size() == 1 ?  users.get(0) : null;
+		}catch(Exception e) {
+			e.printStackTrace();
 			String message = "Error From: "+ this.getClass().getSimpleName() +" ["+Thread.currentThread().getStackTrace()[1].getMethodName()+"], Error Class: " + e.getClass().getSimpleName() + ", Message: "+ e.getMessage();
 			return null;
 		}

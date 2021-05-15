@@ -61,4 +61,9 @@ public class UserServiceImpl implements UserService{
 		return userDao.ifUserNameIsOnlyTakenByOrItsNew(user);
 	}
 
+	@Override
+	public User getUserByEmailAndPassword(String email, String password) {
+		return userDao.getUserByEmailAndPassword(email, password);
+	}
+
 }

@@ -16,4 +16,5 @@ public interface UserService {
 	Boolean exists(Integer id);
 	Boolean ifUserNameIsTakenAlready(String username);
 	Boolean ifUserNameIsOnlyTakenByOrItsNew(User user);
+	User getUserByEmailAndPassword(String email, String password);
 }
