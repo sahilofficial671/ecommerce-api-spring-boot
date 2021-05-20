@@ -71,24 +71,39 @@ public class ProductController {
 	}
 	
 	@PostMapping("/product/submit")
-	public ResponseEntity<String> addProduct(@Valid @RequestBody Product product)
+	public ResponseEntity<Map<String, Object>> addProduct(@Valid @RequestBody Product product)
 	{
+		Map<String, Object> response = new HashMap<String, Object>();
 		for(Category category : product.getCategories()) {
 			// if no category id
 			if(category.getId() == null) {
-				return new ResponseEntity<String>("Category not found.", HttpStatus.NOT_FOUND);
+				response.put("status", "error");
+				response.put("message", "Category not found.");
+				response.put("code", HttpStatus.NOT_FOUND.value());
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 			}
 			
 			// If category id
 			if(!categoryService.exists(category.getId())) {
-				return new ResponseEntity<String>("Category not found.", HttpStatus.NOT_FOUND);
+				response.put("status", "error");
+				response.put("message", "Category not found.");
+				response.put("code", HttpStatus.NOT_FOUND.value());
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 			}
 		}
 		
 		if(productService.add(product)) {
-			return new ResponseEntity<String>("Product Added.", HttpStatus.OK);
+			response.put("status", "success");
+			response.put("message", "Product Added.");
+			response.put("code", HttpStatus.OK.value());
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("Something went wrong!", HttpStatus.NOT_IMPLEMENTED);
+		
+		response.put("status", "error");
+		response.put("message", "Something went wrong!");
+		response.put("code", HttpStatus.NOT_IMPLEMENTED.value());
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_IMPLEMENTED);
 	}
 	
 	@PutMapping("/product/update")
