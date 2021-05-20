@@ -38,7 +38,7 @@ public class Order {
 	
 	@NotNull(message="Products not found.")
 	@OneToMany(targetEntity = Item.class, 
-			cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE}, 
+			cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REMOVE}, 
 			fetch = FetchType.LAZY)
 	@Valid
 	private List<Item> items;
@@ -52,7 +52,7 @@ public class Order {
     @JoinColumn(name = "order_status_id", referencedColumnName = "id")
     private OrderStatus orderStatus;
 	
-	@OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, 
+	@OneToOne(cascade = {CascadeType.ALL}, 
 			fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
 	@JsonManagedReference
