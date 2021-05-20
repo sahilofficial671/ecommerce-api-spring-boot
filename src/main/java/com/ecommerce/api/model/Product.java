@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Component
@@ -64,13 +66,23 @@ public class Product {
 			  inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName="id"))
 	private List<Category> categories;
     
-    // Order Item Relationship
+	@Size(max = 500)
+	private String mainImagePath;
+	
     @OneToMany(targetEntity = Item.class, 
 			cascade = {CascadeType.DETACH, CascadeType.MERGE}, 
 			fetch = FetchType.LAZY,
 			mappedBy="product")
     @JsonIgnore
     private List<Item> items;
+	
+    @JsonManagedReference
+	@OneToMany(targetEntity = ProductImage.class, 
+			cascade = {CascadeType.ALL}, 
+			fetch = FetchType.LAZY,
+			mappedBy = "product")
+	@Valid
+	private List<ProductImage> images;
 
     @NotNull(message = "Please add select valid product slug.")
     @Column(name = "slug")
@@ -89,13 +101,6 @@ public class Product {
 
 	public Integer getId() {
 		return id;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", quantity=" + quantity
-				+ ", price=" + price + ", specialPrice=" + specialPrice + ", categories=" + categories + ", items="
-				+ items + ", slug=" + slug + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 
 	public void setId(Integer id) {
@@ -142,6 +147,14 @@ public class Product {
 		this.specialPrice = specialPrice;
 	}
 
+	public String getMainImagePath() {
+		return mainImagePath;
+	}
+
+	public void setMainImagePath(String mainImagePath) {
+		this.mainImagePath = mainImagePath;
+	}
+
 	public List<Category> getCategories() {
 		return categories;
 	}
@@ -156,6 +169,14 @@ public class Product {
 
 	public void setItems(List<Item> items) {
 		this.items = items;
+	}
+	
+	public List<ProductImage> getImages() {
+		return images;
+	}
+
+	public void setImages(List<ProductImage> images) {
+		this.images = images;
 	}
 
 	public String getSlug() {
