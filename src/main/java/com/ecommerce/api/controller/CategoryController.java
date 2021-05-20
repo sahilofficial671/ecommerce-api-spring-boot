@@ -1,12 +1,15 @@
 package com.ecommerce.api.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,15 +25,20 @@ import com.ecommerce.api.service.CategoryService;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(exposedHeaders="Access-Control-Allow-Origin")
 public class CategoryController {
 	
 	@Autowired
 	private CategoryService categoryService;
 	
 	@GetMapping("/categories")
-	public ResponseEntity<List<Category>> getCategories(){
-		List<Category> categorys = categoryService.getCategories();
-		return new ResponseEntity<List<Category>>(categorys, HttpStatus.OK);
+	public ResponseEntity<Map<String, Object>> getCategories(){
+		Map<String, Object> response = new HashMap<String, Object>();
+		List<Category> categories = categoryService.getCategories();
+		response.put("status", "success");
+		response.put("code", HttpStatus.OK.value());
+		response.put("categories", categories);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
 	@GetMapping("/category/{id}")
