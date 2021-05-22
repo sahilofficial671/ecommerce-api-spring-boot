@@ -45,4 +45,14 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.exists(id);
 	}
 
+	@Override
+	public Boolean deleteExistingImages(Integer id) {
+		return productDao.deleteExistingImages(id);
+	}
+
+	@Override
+	public Product getBySlug(String slug) {
+		return productDao.getBySlug(slug);
+	}
+
 }

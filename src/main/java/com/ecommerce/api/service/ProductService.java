@@ -11,4 +11,7 @@ public interface ProductService {
 	Boolean update(Product product);
 	Boolean delete(Integer id);
 	Boolean exists(Integer id);
+	
+	Boolean deleteExistingImages(Integer id);
+	Product getBySlug(String slug);
 }

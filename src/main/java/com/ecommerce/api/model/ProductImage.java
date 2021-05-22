@@ -41,8 +41,8 @@ public class ProductImage {
 	@Size(max = 255, message = "Max length of image link can be 255.")
 	private String path;
 	
-	@NotNull(message = "Please select valid product.")
 	@JsonBackReference
+	@NotNull(message = "Please select valid product.")
     @ManyToOne(targetEntity = Product.class,
     		optional = false, fetch = FetchType.LAZY,
     		cascade = {CascadeType.DETACH, CascadeType.MERGE})

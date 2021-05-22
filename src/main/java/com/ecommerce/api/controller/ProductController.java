@@ -64,6 +64,24 @@ public class ProductController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
+	@GetMapping("/product/by/slug/{slug}")
+	public ResponseEntity<Map<String, Object>> getProductBySlug(@PathVariable("slug") String slug){
+		Map<String, Object> response = new HashMap<String, Object>();	
+		Product product = productService.getBySlug(slug);
+		
+		if(product == null) {
+			response.put("status", "error");
+			response.put("code", HttpStatus.NOT_FOUND.value());
+			response.put("message", "Product not found.");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		response.put("status", "success");
+		response.put("code", HttpStatus.OK.value());
+		response.put("product", product);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
 	@GetMapping("/product/{id}/items")
 	public ResponseEntity<List<Item>> getItems(@PathVariable("id") Integer id){
 		List<Item> items = productService.getProduct(id).getItems();
@@ -134,7 +152,7 @@ public class ProductController {
 			}
 		}
 		
-		if(productService.update(product)) {
+		if(productService.deleteExistingImages(product.getId()) && productService.update(product)) {
 			response.put("status", "success");
 			response.put("message", "Product updated.");
 			response.put("code", HttpStatus.OK.value());
