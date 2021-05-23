@@ -21,7 +21,7 @@ A client should be able to perform CRUD operations for Product, Category & Order
 4. Products belongs to single store owner who is able to update or delete Products, but all Users can see products present in the system.
 
 ## How to use this API
-- [For Admin](Admin)
+- [For Admin](#admin)
 - For Customer
 
 ### Authentication
