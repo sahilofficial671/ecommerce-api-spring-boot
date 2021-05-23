@@ -29,30 +29,37 @@ A client should be able to perform CRUD operations for Product, Category & Order
 - [Products](#products)
     - [Get list of products](#get-list-of-products)
     - [Get product details](#get-product-details)
-    - [Submit product](#submit-product)
+    - [Create product](#create-product)
     - [Update product](#update-product)
     - [Delete product](#delete-product)
 
 - [Categories](#products)
     - [Get list of categories](#get-list-of-categories)
     - [Get category details](#get-category-details)
-    - [Submit category](#submit-category)
+    - [Create category](#create-category)
     - [Update category](#update-category)
     - [Delete category](#delete-category)
     
 - [Users](#users)
     - [Get list of users](#get-list-of-users)
     - [Get user details](#get-user-details)
-    - [Submit user](#submit-user)
+    - [Create user](#create-user)
     - [Update user](#update-user)
     - [Delete user](#delete-user)
 
 - [Roles](#roles)
     - [Get list of roles](#get-list-of-roles)
     - [Get role details](#get-role-details)
-    - [Submit role](#submit-role)
+    - [Create role](#create-role)
     - [Update role](#update-role)
     - [Delete role](#delete-role)
+ 
+- [Orders](#orders)
+    - [Get list of orders](#get-list-of-orders)
+    - [Get order details](#get-order-details)
+    - [Create order](#create-order)
+    - [Update order](#update-order)
+    - [Delete order](#delete-order)
 
 ## Authentication
 
@@ -85,9 +92,9 @@ Currently there are two roles defined as follows:
 - **Method**: GET
 - **URL**: /product/{id}
 
-#### Submit product:
+#### Create product:
 - **Method**: POST
-- **URL**: /product/submit
+- **URL**: /product/create
 - **Request Data**:
     ```
     {
@@ -160,9 +167,9 @@ Currently there are two roles defined as follows:
 - **Method**: GET
 - **URL**: /category/{id}
 
-#### Submit category: 
+#### Create category: 
 - **Method**: POST
-- **URL**: /category/submit
+- **URL**: /category/create
 - **Request Data**: ``` {"name": "fruit", "description": "fruit description." } ```
 - **Note**: 
     - Should be a valid category with id
@@ -189,9 +196,9 @@ Currently there are two roles defined as follows:
 - **Method**: GET
 - **URL**: /user/{id}
 
-#### Submit user:  
+#### Create user:  
 - **Method**: POST
-- **URL**: /user/submit
+- **URL**: /user/create
 - **Request Data**: 
     ```
     {
@@ -255,9 +262,9 @@ Currently there are two roles defined as follows:
 - **Method**: GET
 - **URL**: /role/{id}
 
-#### Submit role:
+#### Create role:
 - **Method**: POST
-- **URL**: /role/submit
+- **URL**: /role/create
 - **Request Data**:  ``` {"name": "Admin"}```
 - **Note**: 
     - Should be a valid role with id
@@ -276,126 +283,125 @@ Currently there are two roles defined as follows:
     - Should be a valid role id
     - Should not been assigned to any product yet.
 
-#### Orders
+## Orders
+#### Get list of orders:
+- **Method**: GET
+- **URL**: /orders
 
-* To get list of orders: 
-    - **Method**: GET
-    - **URL**: /orders
+#### Get order details:
+- **Method**: GET
+- **URL**: /order/{id}
 
-* To get order info: 
-    - **Method**: GET
-    - **URL**: /order/{id}
-
-* To create order: 
-    - **Method**: POST
-    - **URL**: /order/submit
-    - **Request Data**: 
-        ```
-        {
-            "comments":"Asd",
-            "quantity":10,
-            "address":{
-                "addressLine1":"House No. 20",
-                "addressLine2":"Block F",
-                "city":"FBD",
-                "state":"HR",
-                "pincode":"121001"
-            },
-            "orderStatus": {
-                "id": 1,
-                "name": "Pending"
-            },
-            "items" : [
-                {
-                    "quantity":17,
-                    "product": {
-                        "id": 1,
-                        "name": "Apple",
-                        "description": "Mango description",
-                        "quantity": 17,
-                        "price": 10.0,
-                        "specialPrice": 5.0,
-                        "categories": [
-                            {
-                                "id": 1,
-                                "name": "papaya",
-                                "description": "Fruits available here",
-                                "slug": "fruits",
-                                "createdAt": 1620235977000,
-                                "updatedAt": 1620235977000
-                            }
-                        ],
-                        "slug": "manog-new",
-                        "createdAt": 1620235980000,
-                        "updatedAt": 1620235980000
-                    }
-                }
-            ]
-        }
-        ```
-    - **Note**: 
-        - Should be a valid order with id
-        - Should be having valid products with their respective ids
-        - Should have valid order status with id
-
-* To update order: 
-    - **Method**: PUT
-    - **URL**: /order/update
-    - **Request Data**:
-        ```
-        {
+#### Create order:
+- **Method**: POST
+- **URL**: /order/create
+- **Request Data**: 
+    ```
+    {
+        "comments":"Asd",
+        "quantity":10,
+        "address":{
+            "addressLine1":"House No. 20",
+            "addressLine2":"Block F",
+            "city":"FBD",
+            "state":"HR",
+            "pincode":"121001"
+        },
+        "orderStatus": {
             "id": 1,
-            "comments":"Asd",
-            "quantity":10,
-            "address":{
-                "addressLine1":"House No. 20",
-                "addressLine2":"Block F",
-                "city":"FBD",
-                "state":"HR",
-                "pincode":"121001"
-            },
-            "orderStatus": {
-                "id": 1,
-                "name": "Pending"
-            },
-            "items" : [
-                {
-                    "quantity":17,
-                    "product": {
-                        "id": 1,
-                        "name": "Apple",
-                        "description": "Mango description",
-                        "quantity": 17,
-                        "price": 10.0,
-                        "specialPrice": 5.0,
-                        "categories": [
-                            {
-                                "id": 1,
-                                "name": "papaya",
-                                "description": "Fruits available here",
-                                "slug": "fruits",
-                                "createdAt": 1620235977000,
-                                "updatedAt": 1620235977000
-                            }
-                        ],
-                        "slug": "manog-new",
-                        "createdAt": 1620235980000,
-                        "updatedAt": 1620235980000
-                    }
+            "name": "Pending"
+        },
+        "items" : [
+            {
+                "quantity":17,
+                "product": {
+                    "id": 1,
+                    "name": "Apple",
+                    "description": "Mango description",
+                    "quantity": 17,
+                    "price": 10.0,
+                    "specialPrice": 5.0,
+                    "categories": [
+                        {
+                            "id": 1,
+                            "name": "papaya",
+                            "description": "Fruits available here",
+                            "slug": "fruits",
+                            "createdAt": 1620235977000,
+                            "updatedAt": 1620235977000
+                        }
+                    ],
+                    "slug": "manog-new",
+                    "createdAt": 1620235980000,
+                    "updatedAt": 1620235980000
                 }
-            ]
-        }
-        ```
-    - **Note**: 
-        - Should be a valid order with id
-        - Should be having valid products with their respective ids
-        - Should have valid order status with id
+            }
+        ]
+    }
+    ```
+- **Note**: 
+    - Should be a valid order with id
+    - Should be having valid products with their respective ids
+    - Should have valid order status with id
 
-* To delete order: 
-    - **Method**: DELETE
-    - **URL**: /order/{id}/delete
-    - **Note**: 
-        - No product should be assigned before order deletion.
+#### Update order:
+- **Method**: PUT
+- **URL**: /order/update
+- **Request Data**:
+    ```
+    {
+        "id": 1,
+        "comments":"Asd",
+        "quantity":10,
+        "address":{
+            "addressLine1":"House No. 20",
+            "addressLine2":"Block F",
+            "city":"FBD",
+            "state":"HR",
+            "pincode":"121001"
+        },
+        "orderStatus": {
+            "id": 1,
+            "name": "Pending"
+        },
+        "items" : [
+            {
+                "quantity":17,
+                "product": {
+                    "id": 1,
+                    "name": "Apple",
+                    "description": "Mango description",
+                    "quantity": 17,
+                    "price": 10.0,
+                    "specialPrice": 5.0,
+                    "categories": [
+                        {
+                            "id": 1,
+                            "name": "papaya",
+                            "description": "Fruits available here",
+                            "slug": "fruits",
+                            "createdAt": 1620235977000,
+                            "updatedAt": 1620235977000
+                        }
+                    ],
+                    "slug": "manog-new",
+                    "createdAt": 1620235980000,
+                    "updatedAt": 1620235980000
+                }
+            }
+        ]
+    }
+    ```
+- **Note**: 
+    - Should be a valid order with id
+    - Should be having valid products with their respective ids
+    - Should have valid order status with id
+
+#### Delete order: 
+- **Method**: DELETE
+- **URL**: /order/{id}/delete
+- **Note**: 
+    - No product should be assigned before order deletion.
 
 #### Order Status
 
@@ -409,7 +415,7 @@ Currently there are two roles defined as follows:
 
 * To create Order Status: 
     - **Method**: POST
-    - **URL**: /order_status/submit
+    - **URL**: /order_status/create
     - **Request Data**: ``` {"name": "Pending"} ```
     - **Note**: 
         - Should be a valid order_status with id
