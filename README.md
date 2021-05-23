@@ -21,6 +21,8 @@ A client should be able to perform CRUD operations for Product, Category & Order
 4. Products belongs to single store owner who is able to update or delete Products, but all Users can see products present in the system.
 
 ## How to use this API
+- [For Admin](Admin)
+- For Customer
 
 ### Authentication
 
@@ -28,12 +30,18 @@ Currently there are two roles defined as follows:
 - ADMIN: it's the super user role that can manipulate categories and products.
 - USER: it's a user role that can manipulate *only* products that were created by that user. It can also get data for other users products and categories in the system.
 
-#### Admin User
-`curl -H "Content-Type: application/json" -X POST "http://localhost:9001/admin/login" -d '{ "username": "admin", "password": "admin" }'`
+## Admin
+### Admin Auth
+#### Admin Login
+- **Method**: POST
+- **URL**: admin/login
+- **Request Data**:  ```{"email": "your@email.id", "password": "your_password"}```
 
-#### Normal User
-`curl -H "Content-Type: application/json" -X POST "http://localhost:9001/login" -d '{ "username": "user1", "password": "user1" }'`
-`curl -H "Content-Type: application/json" -X POST "http://localhost:9001/login" -d '{ "username": "user2", "password": "user2" }'`
+### Customer Auth
+#### Customer Login
+- **Method**: POST
+- **URL**: customer/login
+- **Request Data**:  ```{"email": "your@email.id", "password": "your_password"}```
 
 ### Resources
 
