@@ -21,27 +21,39 @@ A client should be able to perform CRUD operations for Product, Category & Order
 4. Products belongs to single store owner who is able to update or delete Products, but all Users can see products present in the system.
 
 ## How to use this API
-- Authentication
+- [Authentication](#authentication)
     - [Customer](#customer)
         - [Customer Login](#customer-login)
     - [Admin](#admin)
         - [Admin Login](#admin-login)
-- Products
+- [Products](#products)
     - [Get list of products](#get-list-of-products)
-#### Authentication
+    - [Get product details](#get-product-details)
+    - [Submit product](#submit-product)
+    - [Update product](#update-product)
+    - [Delete product](#delete-product)
+
+- [Categories](#products)
+    - [Get list of categories](#get-list-of-categories)
+    - [Get category details](#get-category-details)
+    - [Submit category](#submit-category)
+    - [Update category](#update-category)
+    - [Delete category](#delete-category)
+
+## Authentication
 
 Currently there are two roles defined as follows:
 - Admin: it's a role for backend end user. A super user role that can manipulate categories, products, orders, etc.
 - Customer: it's a role for front end customers who can just view, order products
 
-### Admin
+## Admin
 ##### Admin Login
     - **Method**: POST
     - **URL**: admin/login
     - **Request Data**:  ```{"email": "your@email.id", "password": "your_password"}```
     - **Return**: User model
 
-### Customer
+## Customer
 ##### Customer Login
     - **Method**: POST
     - **URL**: customer/login
@@ -49,6 +61,111 @@ Currently there are two roles defined as follows:
     - **Return**: User model
 
 #### Resources
+
+## Products
+#### Get list of products: 
+- **Method**: GET
+- **URL**: /products
+
+#### Get product details: 
+- **Method**: GET
+- **URL**: /product/{id}
+
+#### Submit product:
+- **Method**: POST
+- **URL**: /product/submit
+- **Request Data**:
+    ```
+    {
+        "name": "Apple",
+        "description": "Mango description",
+        "quantity": 17,
+        "price": 10.0,
+        "specialPrice": 5.0,
+        "slug": "manog-new",
+        "mainImagePath": "product/main/image/path/put/here",
+        "categories":[
+            {
+                "id": 1,
+                "name": "fruit",
+                "description": "Fruit description"
+            }
+        ],
+        "images": [
+            {"path": "product/image/path/put/here"},
+            {"path": "product/image/path/put/here"}
+        ]
+    }
+    ```
+
+- **Note**: 
+    - Should be a valid product with id
+    - Categories should be valid with category id
+
+#### Update product:
+- **Method**: PUT
+- **URL**: /product/update
+- **Request Data**: 
+    ```
+    {
+        "name": "Apple",
+        "description": "Mango description",
+        "quantity": 17,
+        "price": 10.0,
+        "specialPrice": 5.0,
+        "slug": "manog-new",
+        "mainImagePath": "product/main/image/path/put/here",
+        "categories":[
+            {
+                "id": 1,
+                "name": "fruit",
+                "description": "Fruit description"
+            }
+        ],
+        "images": [
+            {"path": "product/image/path/put/here"},
+            {"path": "product/image/path/put/here"}
+        ]
+    }
+    ```
+
+- **Note**: 
+    - Should be a valid product with id
+    - Categories should be valid with category id
+        
+#### Delete product: 
+- **Method**: DELETE
+- **URL**: /product/{id}/delete
+    
+## Categories
+#### Get list of categories:
+- **Method**: GET
+- **URL**: /categories
+
+#### Get category details: 
+- **Method**: GET
+- **URL**: /category/{id}
+
+#### Submit category: 
+- **Method**: POST
+- **URL**: /category/submit
+- **Request Data**: ``` {"name": "fruit", "description": "fruit description." } ```
+- **Note**: 
+    - Should be a valid category with id
+
+#### Update category:  
+- **Method**: PUT
+- **URL**: /category/update
+- **Request Data**: ``` {"id": 1, "name": "fruit", "description": "fruit description." } ```
+- **Note**: 
+    - Should be a valid category with id
+
+#### Delete category: 
+- **Method**: DELETE
+- **URL**: /category/{id}/delete
+- **Note**: 
+    - No product should be assigned to this category for deletion.
+
 #### Users
 * To get list of users: 
     - **Method**: GET
@@ -145,114 +262,6 @@ Currently there are two roles defined as follows:
     - **Note**: 
         - Should be a valid role id
         - Should not been assigned to any product yet.
-        
-## Products
-
-The list of Products is always a paginated result for scalability.
-
-#### Get list of products: 
-    - **Method**: GET
-    - **URL**: /products
-
-* To get product info: 
-    - **Method**: GET
-    - **URL**: /product/{id}
-
-* To create product: 
-    - **Method**: POST
-    - **URL**: /product/submit
-    - **Request Data**:
-        ```
-        {
-            "name": "Apple",
-            "description": "Mango description",
-            "quantity": 17,
-            "price": 10.0,
-            "specialPrice": 5.0,
-            "slug": "manog-new",
-            "mainImagePath": "product/main/image/path/put/here",
-            "categories":[
-                {
-                    "id": 1,
-                    "name": "fruit",
-                    "description": "Fruit description"
-                }
-            ],
-            "images": [
-                {"path": "product/image/path/put/here"},
-                {"path": "product/image/path/put/here"}
-            ]
-        }
-        ```
-
-    - **Note**: 
-        - Should be a valid product with id
-        - Categories should be valid with category id
-
-* To update product: 
-    - **Method**: PUT
-    - **URL**: /product/update
-    - **Request Data**: 
-        ```
-        {
-            "name": "Apple",
-            "description": "Mango description",
-            "quantity": 17,
-            "price": 10.0,
-            "specialPrice": 5.0,
-            "slug": "manog-new",
-            "mainImagePath": "product/main/image/path/put/here",
-            "categories":[
-                {
-                    "id": 1,
-                    "name": "fruit",
-                    "description": "Fruit description"
-                }
-            ],
-            "images": [
-                {"path": "product/image/path/put/here"},
-                {"path": "product/image/path/put/here"}
-            ]
-        }
-        ```
-
-    - **Note**: 
-        - Should be a valid product with id
-        - Categories should be valid with category id
-
-* To delete product: 
-    - **Method**: DELETE
-    - **URL**: /product/{id}/delete
-
-#### Categories
-
-* To get list of categories: 
-    - **Method**: GET
-    - **URL**: /categories
-
-* To get category info: 
-    - **Method**: GET
-    - **URL**: /category/{id}
-
-* To create category: 
-    - **Method**: POST
-    - **URL**: /category/submit
-    - **Request Data**: ``` {"name": "fruit", "description": "fruit description." } ```
-    - **Note**: 
-        - Should be a valid category with id
-
-* To update category: 
-    - **Method**: PUT
-    - **URL**: /category/update
-    - **Request Data**: ``` {"id": 1, "name": "fruit", "description": "fruit description." } ```
-    - **Note**: 
-        - Should be a valid category with id
-
-* To delete category: 
-    - **Method**: DELETE
-    - **URL**: /category/{id}/delete
-    - **Note**: 
-        - No product should be assigned to this category for deletion.
 
 #### Orders
 
