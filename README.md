@@ -21,28 +21,34 @@ A client should be able to perform CRUD operations for Product, Category & Order
 4. Products belongs to single store owner who is able to update or delete Products, but all Users can see products present in the system.
 
 ## How to use this API
-### Authentication
+- Authentication
+    - [Customer](#customer)
+        - [Customer Login](#customer-login)
+    - [Admin](#admin)
+        - [Admin Login](#admin-login)
+- Products
+    - [Get list of products](#get-list-of-products)
+#### Authentication
 
 Currently there are two roles defined as follows:
 - Admin: it's a role for backend end user. A super user role that can manipulate categories, products, orders, etc.
 - Customer: it's a role for front end customers who can just view, order products
 
-### Admin Auth
-#### Admin Login
-- **Method**: POST
-- **URL**: admin/login
-- **Request Data**:  ```{"email": "your@email.id", "password": "your_password"}```
-- **Return**: User model
+### Admin
+##### Admin Login
+    - **Method**: POST
+    - **URL**: admin/login
+    - **Request Data**:  ```{"email": "your@email.id", "password": "your_password"}```
+    - **Return**: User model
 
-### Customer Auth
-#### Customer Login
-- **Method**: POST
-- **URL**: customer/login
-- **Request Data**:  ```{"email": "your@email.id", "password": "your_password"}```
-- **Return**: User model
+### Customer
+##### Customer Login
+    - **Method**: POST
+    - **URL**: customer/login
+    - **Request Data**:  ```{"email": "your@email.id", "password": "your_password"}```
+    - **Return**: User model
 
-### Resources
-
+#### Resources
 #### Users
 * To get list of users: 
     - **Method**: GET
@@ -140,11 +146,11 @@ Currently there are two roles defined as follows:
         - Should be a valid role id
         - Should not been assigned to any product yet.
         
-#### Products
+## Products
 
 The list of Products is always a paginated result for scalability.
 
-* To get list of products: 
+#### Get list of products: 
     - **Method**: GET
     - **URL**: /products
 
