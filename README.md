@@ -39,6 +39,20 @@ A client should be able to perform CRUD operations for Product, Category & Order
     - [Submit category](#submit-category)
     - [Update category](#update-category)
     - [Delete category](#delete-category)
+    
+- [Users](#users)
+    - [Get list of users](#get-list-of-users)
+    - [Get user details](#get-user-details)
+    - [Submit user](#submit-user)
+    - [Update user](#update-user)
+    - [Delete user](#delete-user)
+
+- [Roles](#roles)
+    - [Get list of roles](#get-list-of-roles)
+    - [Get role details](#get-role-details)
+    - [Submit role](#submit-role)
+    - [Update role](#update-role)
+    - [Delete role](#delete-role)
 
 ## Authentication
 
@@ -166,102 +180,101 @@ Currently there are two roles defined as follows:
 - **Note**: 
     - No product should be assigned to this category for deletion.
 
-#### Users
-* To get list of users: 
-    - **Method**: GET
-    - **URL**: /users
+## Users
+#### Get list of users:
+- **Method**: GET
+- **URL**: /users
 
-* To get user info: 
-    - **Method**: GET
-    - **URL**: /user/{id}
+#### Get user details: 
+- **Method**: GET
+- **URL**: /user/{id}
 
-* To create user: 
-    - **Method**: POST
-    - **URL**: /user/submit
-    - **Request Data**: 
-        ```
-        {
-            "firstName": "Sahil",
-            "lastName": "Bhatia",
-            "gender": "Male",
-            "phone": "9560487757",
-            "dateOfBirth":"1998-03-24",
-            "email": "sahil@sahilcom",
-            "userName":"sahil1",
-            "password":"sahil1234",
-            "roles":[
-                {
-                    "id": 1,
-                    "name" : "Admin"
-                }
-            ]
-        }
-        ```
-    - **Note**: 
-        - Should be a valid user with id
-        - Should be a valid role with id
+#### Submit user:  
+- **Method**: POST
+- **URL**: /user/submit
+- **Request Data**: 
+    ```
+    {
+        "firstName": "Sahil",
+        "lastName": "Bhatia",
+        "gender": "Male",
+        "phone": "9560487757",
+        "dateOfBirth":"1998-03-24",
+        "email": "sahil@sahilcom",
+        "userName":"sahil1",
+        "password":"sahil1234",
+        "roles":[
+            {
+                "id": 1,
+                "name" : "Admin"
+            }
+        ]
+    }
+    ```
+- **Note**: 
+    - Should be a valid user with id
+    - Should be a valid role with id
 
-* To update user: 
-    - **Method**: PUT
-    - **URL**: /user/update
-    - **Request Data**:
-        ```
-        {
-            "id": 1,
-            "firstName": "Sahil",
-            "lastName": "Bhatia",
-            "gender": "Male",
-            "phone": "9560487757",
-            "dateOfBirth":"1998-03-24",
-            "email": "sahil@sahilcom",
-            "userName":"sahil1",
-            "password":"sahil1234",
-            "roles":[
-                {
-                    "id": 1,
-                    "name" : "Admin"
-                }
-            ]
-        }
-        ```
-    - **Note**: 
-        - Should be a valid user with id
-        - Should be a valid role with id
+#### Update user:   
+- **Method**: PUT
+- **URL**: /user/update
+- **Request Data**:
+    ```
+    {
+        "id": 1,
+        "firstName": "Sahil",
+        "lastName": "Bhatia",
+        "gender": "Male",
+        "phone": "9560487757",
+        "dateOfBirth":"1998-03-24",
+        "email": "sahil@sahilcom",
+        "userName":"sahil1",
+        "password":"sahil1234",
+        "roles":[
+            {
+                "id": 1,
+                "name" : "Admin"
+            }
+        ]
+    }
+    ```
+- **Note**: 
+    - Should be a valid user with id
+    - Should be a valid role with id
 
-* To delete user: 
-    - **Method**: DELETE
-    - **URL**: /user/{id}/delete
+#### Delete user:   
+- **Method**: DELETE
+- **URL**: /user/{id}/delete
 
-#### Roles
+## Roles
+#### Get list of roles:
+- **Method**: GET
+- **URL**: /roles
 
-* To get list of roles: 
-    - **Method**: GET
-    - **URL**: /roles
+#### Get role details:
+- **Method**: GET
+- **URL**: /role/{id}
 
-* To get role info: 
-    - **Method**: GET
-    - **URL**: /role/{id}
+#### Submit role:
+- **Method**: POST
+- **URL**: /role/submit
+- **Request Data**:  ``` {"name": "Admin"}```
+- **Note**: 
+    - Should be a valid role with id
 
-* To create role: 
-    - **Method**: POST
-    - **URL**: /role/submit
-    - **Request Data**:  ``` {"name": "Admin"}```
-    - **Note**: 
-        - Should be a valid role with id
+#### Update role:
+- **Method**: PUT
+- **URL**: /role/update
+- **Request Data**: ``` {"id": 1, "name": "Admin"}```
+- **Note**: 
+    - Should be a valid role with id
 
-* To update role: 
-    - **Method**: PUT
-    - **URL**: /role/update
-    - **Request Data**: ``` {"id": 1, "name": "Admin"}```
-    - **Note**: 
-        - Should be a valid role with id
-
-* To delete role: 
-    - **Method**: DELETE
-    - **URL**: /role/{id}/delete
-    - **Note**: 
-        - Should be a valid role id
-        - Should not been assigned to any product yet.
+#### Delete role:
+- **Method**: DELETE
+- **URL**: /role/{id}/delete
+- **Note**: 
+    - Should be a valid role id
+    - Should not been assigned to any product yet.
 
 #### Orders
 
