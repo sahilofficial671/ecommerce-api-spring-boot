@@ -21,32 +21,29 @@ A client should be able to perform CRUD operations for Product, Category & Order
 4. Products belongs to single store owner who is able to update or delete Products, but all Users can see products present in the system.
 
 ## How to use this API
-- [For Admin](#admin)
-- For Customer
-
 ### Authentication
 
 Currently there are two roles defined as follows:
-- ADMIN: it's the super user role that can manipulate categories and products.
-- USER: it's a user role that can manipulate *only* products that were created by that user. It can also get data for other users products and categories in the system.
+- Admin: it's a role for backend end user. A super user role that can manipulate categories, products, orders, etc.
+- Customer: it's a role for front end customers who can just view, order products
 
-## Admin
 ### Admin Auth
 #### Admin Login
 - **Method**: POST
 - **URL**: admin/login
 - **Request Data**:  ```{"email": "your@email.id", "password": "your_password"}```
+- **Return**: User model
 
 ### Customer Auth
 #### Customer Login
 - **Method**: POST
 - **URL**: customer/login
 - **Request Data**:  ```{"email": "your@email.id", "password": "your_password"}```
+- **Return**: User model
 
 ### Resources
 
 #### Users
-
 * To get list of users: 
     - **Method**: GET
     - **URL**: /users
@@ -167,12 +164,17 @@ The list of Products is always a paginated result for scalability.
             "price": 10.0,
             "specialPrice": 5.0,
             "slug": "manog-new",
+            "mainImagePath": "product/main/image/path/put/here",
             "categories":[
                 {
                     "id": 1,
                     "name": "fruit",
                     "description": "Fruit description"
                 }
+            ],
+            "images": [
+                {"path": "product/image/path/put/here"},
+                {"path": "product/image/path/put/here"}
             ]
         }
         ```
@@ -187,19 +189,23 @@ The list of Products is always a paginated result for scalability.
     - **Request Data**: 
         ```
         {
-            "id": 1,
-            "name": "Mango",
+            "name": "Apple",
             "description": "Mango description",
             "quantity": 17,
             "price": 10.0,
             "specialPrice": 5.0,
             "slug": "manog-new",
+            "mainImagePath": "product/main/image/path/put/here",
             "categories":[
                 {
                     "id": 1,
                     "name": "fruit",
                     "description": "Fruit description"
                 }
+            ],
+            "images": [
+                {"path": "product/image/path/put/here"},
+                {"path": "product/image/path/put/here"}
             ]
         }
         ```
