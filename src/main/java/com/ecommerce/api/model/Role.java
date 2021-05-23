@@ -105,4 +105,10 @@ public class Role implements Serializable{
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", name=" + name + ", description=" + description + ", "
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+	}
 }
